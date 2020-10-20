@@ -13,7 +13,7 @@
     "eslint:fix": "npm run eslint -- --fix",
     "preversion": "",
     "version": "npm run build && git add -A dist",
-    "postversion": "git push && git push --tags && rm -rf dist"
+    "postversion": "git push && git push --tags"
   },
   "types": "dist/index.d.ts",
   "keywords": [
