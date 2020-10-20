@@ -1,5 +1,9 @@
 # sms-parse
 
+```sh
+npm i sms-parse --save
+```
+
 ```ts
 import {MessageParser} from 'sms-parse';
 
