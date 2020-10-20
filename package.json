@@ -10,10 +10,18 @@
     "prettier:check": "npm run prettier:cli -- -l",
     "prettier:fix": "npm run prettier:cli -- --write",
     "eslint": "eslint -c .eslintrc.js --ignore-path .eslintignore --ext .js,.ts --report-unused-disable-directives .",
-    "eslint:fix": "npm run eslint -- --fix"
+    "eslint:fix": "npm run eslint -- --fix",
+    "preversion": "",
+    "version": "npm run build && git add -A dist",
+    "postversion": "git push && git push --tags && rm -rf dist"
   },
-  "keywords": [],
-  "author": "",
+  "types": "dist/index.d.ts",
+  "keywords": ["sms","sms-parse", "sms-parser"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexnfsc175/sms-parse"
+  },
+  "author": "Alex Pereira | Getconnect",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^14.11.2",
