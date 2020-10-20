@@ -1,6 +1,6 @@
 {
   "name": "sms-parse",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "scripts": {
     "build": "tsc --p tsconfig.build.json",
@@ -16,7 +16,11 @@
     "postversion": "git push && git push --tags && rm -rf dist"
   },
   "types": "dist/index.d.ts",
-  "keywords": ["sms","sms-parse", "sms-parser"],
+  "keywords": [
+    "sms",
+    "sms-parse",
+    "sms-parser"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/alexnfsc175/sms-parse"
