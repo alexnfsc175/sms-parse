@@ -1,12 +1,12 @@
 import { Segment } from './Segment';
 import { EncodedChar } from './EncodedChar';
-declare type SmsEncoding = 'GSM-7' | 'UCS-2';
+declare type SmsEncoding = 'GSM-7';
 declare type EncodedChars = Array<EncodedChar>;
 /**
  * Class representing a segmented SMS
  */
-export declare class SegmentedMessage {
-    encoding: SmsEncoding | 'auto';
+export declare class GsmMessage {
+    encoding: string;
     segments: Segment[];
     graphemes: string[];
     encodingName: SmsEncoding;
@@ -22,15 +22,7 @@ export declare class SegmentedMessage {
      * @property {number} numberOfUnicodeScalars  Number of Unicode Scalars (i.e. unicode pairs) the message is made of
      *
      */
-    constructor(message: string, encoding?: SmsEncoding | 'auto');
-    /**
-     * Internal method to check if the message has any non-GSM7 characters
-     *
-     * @param {string[]} graphemes Message body
-     * @returns {boolean} True if there are non-GSM-7 characters
-     * @private
-     */
-    _hasAnyUCSCharacters(graphemes: string[]): boolean;
+    constructor(message: string);
     /**
      * Internal method used to build message's segment(s)
      *
@@ -71,5 +63,6 @@ export declare class SegmentedMessage {
      * @returns {string[]} Array of characters representing the non GSM-7 characters in the message body
      */
     getNonGsmCharacters(): string[];
+    get parsedMessage(): string;
 }
 export {};

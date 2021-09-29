@@ -410,6 +410,6 @@ export class Charset {
     0x017b: [0x5a], // Latin Capital Letter Z with Dot Above => Latin Capital Letter Z
 
     // Caracters que serão subistiuidos
-    0x00e9: [0xe9]
+    0x00e9: [0xe9],
   };
 }

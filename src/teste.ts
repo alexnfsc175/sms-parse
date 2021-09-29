@@ -1,10 +1,22 @@
-import {MessageParser} from './MessageParser';
+import {GsmMessage} from './GsmMessage';
 
-const messageParser = new MessageParser('GSM-7');
-
-const message = `A expressão Lorem ipsum em design gráfico
+const m = `©®_A expressão Lorem ipsum em design gráfico
 e editoração é um texto padrão em latim utilizado na produção
 gráfica para preencher os espaços de texto em {}
 ªµºÀÁÂÃÈÊËÌÍÎÏÐÒÓÔÕÙÚÛÝÞáâãçêëíîïðóôõúûýþÿąĄćĆęĘłŁńŃśŚźŹżŻ`;
 
-console.log(messageParser.parseNonGsmChars(message));
+const {
+  encoding,
+  segmentsCount,
+  parsedMessage: message,
+  numberOfCharacters,
+  messageSize,
+} = new GsmMessage(m);
+
+console.log({
+  encoding,
+  segmentsCount,
+  message,
+  numberOfCharacters,
+  messageSize,
+});

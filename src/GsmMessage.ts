@@ -2,19 +2,16 @@ import GraphemeSplitter from 'grapheme-splitter';
 
 import {Segment} from './Segment';
 import {EncodedChar} from './EncodedChar';
-import {UnicodeToGsm} from './UnicodeToGSM';
 
-type SmsEncoding = 'GSM-7' | 'UCS-2';
+type SmsEncoding = 'GSM-7';
 
 type EncodedChars = Array<EncodedChar>;
-
-const validEncodingValues = ['GSM-7', 'UCS-2', 'auto'];
 
 /**
  * Class representing a segmented SMS
  */
-export class SegmentedMessage {
-  encoding: SmsEncoding | 'auto';
+export class GsmMessage {
+  encoding = 'GSM-7';
 
   segments: Segment[];
 
@@ -33,20 +30,12 @@ export class SegmentedMessage {
    * Create a new segmented message from a string
    *
    * @param {string} message Body of the message
-   * @param {boolean} [encoding] Optional: encoding. It can be 'GSM-7', 'UCS-2', 'auto'. Default value: 'auto'
+   * @property {boolean} [encoding] encoding 'GSM-7'
    * @property {number} numberOfUnicodeScalars  Number of Unicode Scalars (i.e. unicode pairs) the message is made of
    *
    */
-  constructor(message: string, encoding: SmsEncoding | 'auto' = 'auto') {
+  constructor(message: string) {
     const splitter = new GraphemeSplitter();
-
-    if (!validEncodingValues.includes(encoding)) {
-      throw new Error(
-        `Encoding ${encoding} not supported. Valid values for encoding are ${validEncodingValues.join(
-          ', ',
-        )}`,
-      );
-    }
 
     /**
      * @property {string[]} graphemes Graphemes (array of strings) the message have been split into
@@ -61,23 +50,8 @@ export class SegmentedMessage {
      * @property {number} numberOfCharacters Number of characters in the message. Each character count as 1, regardless of the encoding.
      */
     this.numberOfCharacters = this.graphemes.length;
-    /**
-     * @property {string} encoding Encoding set in the constructor for the message. Allowed values: 'GSM-7', 'UCS-2', 'auto'.
-     * @private
-     */
-    this.encoding = encoding;
 
-    if (this._hasAnyUCSCharacters(this.graphemes)) {
-      // if (encoding === 'GSM-7') {
-      //   throw new Error('The string provided is incompatible with GSM-7 encoding');
-      // }
-      /**
-       * @property {string} encodingName Calculated encoding name. It can be: "GSM-7" or "UCS-2"
-       */
-      this.encodingName = 'UCS-2';
-    } else {
-      this.encodingName = 'GSM-7';
-    }
+    this.encodingName = 'GSM-7';
 
     /**
      * @property {string[]} encodedChars Array of encoded characters composing the message
@@ -88,27 +62,6 @@ export class SegmentedMessage {
      * @property {object[]} segments Array of segment(s) the message have been segmented into
      */
     this.segments = this._buildSegments(this.encodedChars);
-  }
-
-  /**
-   * Internal method to check if the message has any non-GSM7 characters
-   *
-   * @param {string[]} graphemes Message body
-   * @returns {boolean} True if there are non-GSM-7 characters
-   * @private
-   */
-  _hasAnyUCSCharacters(graphemes: string[]): boolean {
-    let result = false;
-    for (const grapheme of graphemes) {
-      if (
-        grapheme.length >= 2 ||
-        (grapheme.length === 1 && !UnicodeToGsm[grapheme.charCodeAt(0)])
-      ) {
-        result = true;
-        break;
-      }
-    }
-    return result;
   }
 
   /**
@@ -160,8 +113,9 @@ export class SegmentedMessage {
   _encodeChars(graphemes: string[]): EncodedChars {
     const encodedChars: EncodedChars = [];
 
+    const forceGsm = true;
     for (const grapheme of graphemes) {
-      encodedChars.push(new EncodedChar(grapheme, this.encodingName));
+      encodedChars.push(new EncodedChar(grapheme, this.encodingName, forceGsm));
     }
     return encodedChars;
   }
@@ -204,5 +158,18 @@ export class SegmentedMessage {
     return this.encodedChars
       .filter((encodedChar) => !encodedChar.isGSM7)
       .map((encodedChar) => encodedChar.raw);
+  }
+
+  get parsedMessage(): string {
+    let message = '';
+
+    for (const segment of this.segments) {
+      for (const seg of segment) {
+        if (seg.codeUnits) {
+          message += String.fromCharCode(...seg.codeUnits);
+        }
+      }
+    }
+    return message;
   }
 }

@@ -157,6 +157,7 @@ Charset.UNICODE_TO_GSM = {
     0x03a8: [0x17],
     0x03a9: [0x15],
     0x20ac: [0x1b, 0x65],
+    // 0x20ac: [0x1b65],
 };
 // Outra versão
 // static UNICODE_TO_GSM: { [key: number]: number[] } = {
@@ -406,5 +407,5 @@ Charset.TRANSLITERATE = {
     0x017c: [0x7a],
     0x017b: [0x5a],
     // Caracters que serão subistiuidos
-    0x00e9: [0xe9]
+    0x00e9: [0xe9],
 };
