@@ -1,6 +1,6 @@
 {
   "name": "sms-parse",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "scripts": {
     "build": "tsc --p tsconfig.build.json",
@@ -15,7 +15,7 @@
     "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags",
     "prebuild": "npm run clean",
-    "clean":"rm -R tsconfig.build.tsbuildinfo dist/ ||true",
+    "clean": "rm -R tsconfig.build.tsbuildinfo dist/ ||true",
     "prepare": "husky install"
   },
   "types": "dist/index.d.ts",

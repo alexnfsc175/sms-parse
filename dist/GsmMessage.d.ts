@@ -18,7 +18,7 @@ export declare class GsmMessage {
      * Create a new segmented message from a string
      *
      * @param {string} message Body of the message
-     * @param {boolean} [encoding] Optional: encoding. It can be 'GSM-7', 'UCS-2', 'auto'. Default value: 'auto'
+     * @property {boolean} [encoding] encoding 'GSM-7'
      * @property {number} numberOfUnicodeScalars  Number of Unicode Scalars (i.e. unicode pairs) the message is made of
      *
      */
